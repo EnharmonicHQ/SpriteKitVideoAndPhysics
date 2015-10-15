@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BV1-FR-VrT">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController id="BV1-FR-VrT" customClass="ENHViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="FfL-gX-AC1"/>
+                        <viewControllerLayoutGuide type="bottom" id="oRj-iI-I74"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="0.0" maxValue="20" translatesAutoresizingMaskIntoConstraints="NO" id="eGE-8z-11M">
+                                <rect key="frame" x="156" y="974" width="594" height="31"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="vortexStrengthSliderSlid:" destination="BV1-FR-VrT" eventType="valueChanged" id="kdU-Sf-Yn6"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="16" translatesAutoresizingMaskIntoConstraints="NO" id="hIS-KE-DHw">
+                                <rect key="frame" x="156" y="936" width="594" height="31"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="gravityStrengthSliderSlid:" destination="BV1-FR-VrT" eventType="valueChanged" id="Xdx-Mg-qQu"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1.1000000000000001" minValue="0.0" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="ghn-Pa-Uj2">
+                                <rect key="frame" x="136" y="898" width="613.5" height="31"/>
+                                <animations/>
+                                <connections>
+                                    <action selector="gravityFalloffSliderSlid:" destination="BV1-FR-VrT" eventType="valueChanged" id="d5B-Kn-Jlw"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gravity Falloff:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zB9-v6-90K">
+                                <rect key="frame" x="20" y="902" width="110.5" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gravity Strength:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0J4-Cd-TSI">
+                                <rect key="frame" x="20" y="940" width="130" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vortex Strength: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gLG-tG-97W">
+                                <rect key="frame" x="20" y="978" width="130" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.25098040699958801" green="0.0" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="hIS-KE-DHw" firstAttribute="trailing" secondItem="eGE-8z-11M" secondAttribute="trailing" id="2nk-Qh-3Sr"/>
+                            <constraint firstItem="hIS-KE-DHw" firstAttribute="top" secondItem="ghn-Pa-Uj2" secondAttribute="bottom" constant="8" symbolic="YES" id="3zu-s4-hae"/>
+                            <constraint firstItem="0J4-Cd-TSI" firstAttribute="top" secondItem="zB9-v6-90K" secondAttribute="bottom" constant="17" id="8Gv-4k-rSA"/>
+                            <constraint firstAttribute="trailing" secondItem="ghn-Pa-Uj2" secondAttribute="trailing" constant="20" symbolic="YES" id="Nlg-so-bMi"/>
+                            <constraint firstAttribute="bottom" secondItem="eGE-8z-11M" secondAttribute="bottom" constant="20" symbolic="YES" id="O8O-kA-ySf"/>
+                            <constraint firstItem="ghn-Pa-Uj2" firstAttribute="leading" secondItem="zB9-v6-90K" secondAttribute="trailing" constant="8" symbolic="YES" id="WWU-hg-bWq"/>
+                            <constraint firstItem="eGE-8z-11M" firstAttribute="top" secondItem="hIS-KE-DHw" secondAttribute="bottom" constant="8" symbolic="YES" id="Yms-k6-uhz"/>
+                            <constraint firstItem="zB9-v6-90K" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" constant="20" symbolic="YES" id="Ype-Qk-hGq"/>
+                            <constraint firstItem="gLG-tG-97W" firstAttribute="top" secondItem="0J4-Cd-TSI" secondAttribute="bottom" constant="17" id="ae7-cN-BJ8"/>
+                            <constraint firstItem="ghn-Pa-Uj2" firstAttribute="trailing" secondItem="hIS-KE-DHw" secondAttribute="trailing" id="d5W-JP-Ulj"/>
+                            <constraint firstItem="0J4-Cd-TSI" firstAttribute="leading" secondItem="gLG-tG-97W" secondAttribute="leading" id="eDn-rI-Vm4"/>
+                            <constraint firstItem="eGE-8z-11M" firstAttribute="leading" secondItem="gLG-tG-97W" secondAttribute="trailing" constant="8" symbolic="YES" id="fRV-RY-wRe"/>
+                            <constraint firstItem="0J4-Cd-TSI" firstAttribute="top" secondItem="ghn-Pa-Uj2" secondAttribute="bottom" constant="12" id="tUm-gJ-Qiq"/>
+                            <constraint firstItem="hIS-KE-DHw" firstAttribute="leading" secondItem="0J4-Cd-TSI" secondAttribute="trailing" constant="8" symbolic="YES" id="uRQ-cA-CEY"/>
+                            <constraint firstItem="0J4-Cd-TSI" firstAttribute="leading" secondItem="zB9-v6-90K" secondAttribute="leading" id="wmN-0T-3tb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="gravityFalloffLabel" destination="zB9-v6-90K" id="PAh-Ad-NvS"/>
+                        <outlet property="gravityStrengthLabel" destination="0J4-Cd-TSI" id="K4E-G3-QJC"/>
+                        <outlet property="vortexStrengthLabel" destination="gLG-tG-97W" id="gl6-C4-VNJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <nil key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
