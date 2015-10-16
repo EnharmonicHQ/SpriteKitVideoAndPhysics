@@ -146,7 +146,6 @@ extension ENHSWVideoCamToSKTexture: AVCaptureVideoDataOutputSampleBufferDelegate
                 }
             }
             
-            //TODO: kCVPixelBufferLock_ReadOnly.value doesn't work here because of a type mismatch. TODO: RDAR ME
             let readOnlyFlag:CVOptionFlags = UInt64(kCVPixelBufferLock_ReadOnly.value)
             var cvErr = CVPixelBufferLockBaseAddress(pixelBuffer, readOnlyFlag)
             if cvErr != kCVReturnSuccess

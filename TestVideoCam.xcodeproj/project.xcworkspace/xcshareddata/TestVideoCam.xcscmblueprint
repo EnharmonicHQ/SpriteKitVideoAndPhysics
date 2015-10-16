@@ -1,25 +1,32 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "441C51A8D33FAE1DCAB4F15CB67B59C49E51399B",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "84A1ECC373163C2488FA027A8FB79817A36E5E14",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "84A1ECC373163C2488FA027A8FB79817A36E5E14" : 0,
     "441C51A8D33FAE1DCAB4F15CB67B59C49E51399B" : 0,
     "D535A49639198AF396BD97EE33049015E23BCB4B" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4935E1A4-29E7-4223-B1A1-7FF4A970F97A",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "84A1ECC373163C2488FA027A8FB79817A36E5E14" : "JS-Rebuild-SpriteKitVideoAndPhysics\/",
     "441C51A8D33FAE1DCAB4F15CB67B59C49E51399B" : "SKVideoAndPhysicsArticle\/",
     "D535A49639198AF396BD97EE33049015E23BCB4B" : ".."
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "TestVideoCam",
-  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TestVideoCam.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:Enharmonic\/article-spritekitvideoandphysics.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "441C51A8D33FAE1DCAB4F15CB67B59C49E51399B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:EnharmonicHQ\/SpriteKitVideoAndPhysics.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "84A1ECC373163C2488FA027A8FB79817A36E5E14"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:Enharmonic\/article-spritekitscenekitglkitmashup.git",
