@@ -19,8 +19,6 @@ struct ENHSWVideoCamToSKTextureConstants {
 
 class ENHSWVideoCamToSKTexture: NSObject {
 
-    var spriteNodesToUpdate: Set<SKSpriteNode> = Set<SKSpriteNode>()
-
     // "dynamic" gets us KVO
     //https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/AdoptingCocoaDesignPatterns.html#//apple_ref/doc/uid/TP40014216-CH7-ID12
     dynamic var texture: SKMutableTexture?
@@ -192,16 +190,6 @@ extension ENHSWVideoCamToSKTexture: AVCaptureVideoDataOutputSampleBufferDelegate
                 if cvErr != kCVReturnSuccess
                 {
                     print("CVPixelBufferUnlockBaseAddress(passablePixelBuffer) failed with CVReturn value \(cvErr)")
-                }
-                //TODO: figure out weak capture semantics (I forgot them)
-                if self.spriteNodesToUpdate.count > 0
-                {
-                    for spriteNodeToUpdate in self.spriteNodesToUpdate
-                    {
-                        let initialSize = spriteNodeToUpdate.size
-                        spriteNodeToUpdate.texture = self.texture
-                        spriteNodeToUpdate.size = initialSize
-                    }
                 }
             }
         }
