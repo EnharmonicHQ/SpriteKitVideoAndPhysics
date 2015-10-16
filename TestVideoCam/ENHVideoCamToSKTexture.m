@@ -170,20 +170,7 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             NSLog (@"CVPixelBufferLockBaseAddress(passablePixelBuffer) failed with CVReturn value %d", cvErr);
         }
         uint8_t *passableBaseAddress = (uint8_t *)CVPixelBufferGetBaseAddress(passablePixelBuffer);
-
-        vImage_Buffer inBuffer;
-        inBuffer.data = baseAddress;
-        inBuffer.height = height;
-        inBuffer.width = width;
-        inBuffer.rowBytes = bytesPerRow;
-
-        vImage_Buffer passableBuffer;
-        passableBuffer.data = passableBaseAddress;
-        passableBuffer.height = height;
-        passableBuffer.width = width;
-        passableBuffer.rowBytes = bytesPerRow;
-        uint8_t bgraMap[4] = {2, 1, 0, 3};
-        vImagePermuteChannels_ARGB8888(&inBuffer, &passableBuffer, bgraMap, kvImageNoFlags);
+        memcpy(passableBaseAddress, baseAddress, bytesPerRow * height);
 
         cvErr = CVPixelBufferUnlockBaseAddress(pixelBuffer, kCVPixelBufferLock_ReadOnly);
         if (cvErr != kCVReturnSuccess)
@@ -191,25 +178,22 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             NSLog (@"CVPixelBufferUnlockBaseAddress(pixelBuffer) failed with CVReturn value %d", cvErr);
         }
         
-        __weak typeof(self) blkSelf = self;
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if (_texture == nil || _texture.size.height != height || _texture.size.width != width)
-            {
-                SKMutableTexture *texture = [[SKMutableTexture alloc] initWithSize:(CGSize){.height = height, .width = width}];
-                [blkSelf setTexture:texture];
-            }
-            [_texture modifyPixelDataWithBlock:^(void *pixelData, size_t lengthInBytes) {
+        if (_texture == nil || _texture.size.height != height || _texture.size.width != width)
+        {
+            SKMutableTexture *texture = [[SKMutableTexture alloc] initWithSize:(CGSize){.height = height, .width = width}];
+            [self setTexture:texture];
+        }
+        [_texture modifyPixelDataWithBlock:^(void *pixelData, size_t lengthInBytes) {
 
-                memcpy(pixelData, passableBaseAddress, lengthInBytes);
-                CVReturn cvErr = CVPixelBufferUnlockBaseAddress(passablePixelBuffer, 0);
-                if (cvErr != kCVReturnSuccess)
-                {
-                    NSLog (@"CVPixelBufferUnlockBaseAddress(passablePixelBuffer) failed with CVReturn value %d", cvErr);
-                }
-                CVPixelBufferRelease(passablePixelBuffer);
-            }];
-        });
-        
+            memcpy(pixelData, passableBaseAddress, lengthInBytes);
+            CVReturn cvErr = CVPixelBufferUnlockBaseAddress(passablePixelBuffer, 0);
+            if (cvErr != kCVReturnSuccess)
+            {
+                NSLog (@"CVPixelBufferUnlockBaseAddress(passablePixelBuffer) failed with CVReturn value %d", cvErr);
+            }
+            CVPixelBufferRelease(passablePixelBuffer);
+        }];
+
     }
 }
 

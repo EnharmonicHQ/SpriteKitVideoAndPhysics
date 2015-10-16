@@ -20,7 +20,10 @@ struct ENHSWVideoCamToSKTextureConstants {
 class ENHSWVideoCamToSKTexture: NSObject {
 
     var spriteNodesToUpdate: Set<SKSpriteNode> = Set<SKSpriteNode>()
-    var texture: SKMutableTexture?
+
+    // "dynamic" gets us KVO
+    //https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/AdoptingCocoaDesignPatterns.html#//apple_ref/doc/uid/TP40014216-CH7-ID12
+    dynamic var texture: SKMutableTexture?
     var captureSession: AVCaptureSession
     var bufferPool:CVPixelBufferPool?
 
@@ -171,21 +174,7 @@ extension ENHSWVideoCamToSKTexture: AVCaptureVideoDataOutputSampleBufferDelegate
             }
             let passableBaseAddress:UnsafeMutablePointer<Void> = CVPixelBufferGetBaseAddress(passablePixelBuffer)
 
-            //Convert BGRA
-            var inBuffer = vImage_Buffer(data:baseAddress,
-                height:CUnsignedLong(height),
-                width:CUnsignedLong(width),
-                rowBytes:Int(bytesPerRow))
-            var passableBuffer = vImage_Buffer(data:passableBaseAddress,
-                height:CUnsignedLong(height),
-                width:CUnsignedLong(width),
-                rowBytes:Int(bytesPerRow))
-
-            withUnsafePointers(&inBuffer, &passableBuffer) {(inBufferPtr: UnsafePointer<vImage_Buffer>, passableBufferPtr: UnsafePointer<vImage_Buffer>) -> Void in
-
-                var bgraMap = [UInt8(2), UInt8(1), UInt8(0), UInt8(3)]
-                vImagePermuteChannels_ARGB8888(inBufferPtr, passableBufferPtr, &bgraMap, CUnsignedInt(kvImageNoFlags))
-            }
+            memcpy(passableBaseAddress, baseAddress, bytesPerRow * height);
 
             cvErr = CVPixelBufferUnlockBaseAddress(pixelBuffer, readOnlyFlag)
             if cvErr != kCVReturnSuccess
@@ -193,32 +182,29 @@ extension ENHSWVideoCamToSKTexture: AVCaptureVideoDataOutputSampleBufferDelegate
                 print("CVPixelBufferUnlockBaseAddress(pixelBuffer) failed with CVReturn value \(cvErr)")
             }
             
-            dispatch_sync(dispatch_get_main_queue()) {
-                if self.texture?.size().height != CGFloat(height) || self.texture?.size().width != CGFloat(width) || self.texture == nil
+            if self.texture?.size().height != CGFloat(height) || self.texture?.size().width != CGFloat(width) || self.texture == nil
+            {
+                self.texture = SKMutableTexture(size:CGSize(width: CGFloat(width), height: CGFloat(height)))
+            }
+            self.texture?.modifyPixelDataWithBlock() { (pixeldata, lengthInBytes) -> Void in
+                memcpy(pixeldata, passableBaseAddress, lengthInBytes)
+                let cvErr = CVPixelBufferUnlockBaseAddress(passablePixelBuffer, 0)
+                if cvErr != kCVReturnSuccess
                 {
-                    self.willChangeValueForKey("texture")
-                    self.texture = SKMutableTexture(size:CGSize(width: CGFloat(width), height: CGFloat(height)))
-                    self.didChangeValueForKey("texture")
+                    print("CVPixelBufferUnlockBaseAddress(passablePixelBuffer) failed with CVReturn value \(cvErr)")
                 }
-                self.texture?.modifyPixelDataWithBlock() { (pixeldata, lengthInBytes) -> Void in
-                    memcpy(pixeldata, passableBaseAddress, lengthInBytes)
-                    let cvErr = CVPixelBufferUnlockBaseAddress(passablePixelBuffer, 0)
-                    if cvErr != kCVReturnSuccess
+                //TODO: figure out weak capture semantics (I forgot them)
+                if self.spriteNodesToUpdate.count > 0
+                {
+                    for spriteNodeToUpdate in self.spriteNodesToUpdate
                     {
-                        print("CVPixelBufferUnlockBaseAddress(passablePixelBuffer) failed with CVReturn value \(cvErr)")
-                    }
-                    //TODO: figure out weak capture semantics (I forgot them)
-                    if self.spriteNodesToUpdate.count > 0
-                    {
-                        for spriteNodeToUpdate in self.spriteNodesToUpdate
-                        {
-                            let initialSize = spriteNodeToUpdate.size
-                            spriteNodeToUpdate.texture = self.texture
-                            spriteNodeToUpdate.size = initialSize
-                        }
+                        let initialSize = spriteNodeToUpdate.size
+                        spriteNodeToUpdate.texture = self.texture
+                        spriteNodeToUpdate.size = initialSize
                     }
                 }
             }
         }
     }
 }
+

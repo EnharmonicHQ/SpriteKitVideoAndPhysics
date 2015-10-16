@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Enharmonic. All rights reserved.
 //
 
-#define USE_SWIFT_VID_CAM_IMPLEMENTATION (0)
+#define USE_SWIFT_VID_CAM_IMPLEMENTATION (1)
 
 #import "ENHMyScene.h"
 #if USE_SWIFT_VID_CAM_IMPLEMENTATION
@@ -20,6 +20,8 @@
 #import "ENHVideoCamToSKTexture.h"
 
 #endif
+
+#define STRINGIFY(shader) #shader
 
 const uint32_t kENHMySceneEdgeCollisionCategory = 0x1 << 1;
 static const uint32_t nodeCategory = 0x1 << 2;
@@ -112,11 +114,22 @@ static NSString *textureObservationContext = @"Texture Observation Key";
 
 -(void)generateABunchOfRandomQuads
 {
+    NSString *shaderStr = @STRINGIFY(
+                                     void main()
+                                     {
+                                         vec2 tex_coord = vec2(v_tex_coord.x, 1.0 - v_tex_coord.y);
+                                         gl_FragColor = (v_color_mix * texture2D(u_texture, tex_coord)).bgra;
+                                     }
+                                     );
+    SKShader *shader = [SKShader shaderWithSource:shaderStr];
+
     for (NSInteger i=0; i<20; i++)
     {
         CGRect frame = [self frameInMyCoordinateSystem];
         CGPoint randomPoint = randomPointInsideRect(frame);
         SKSpriteNode *node = [self addRandomQuadWithPosition:randomPoint];
+        [node setShader:shader];
+
 #pragma unused(node)
     }
 }

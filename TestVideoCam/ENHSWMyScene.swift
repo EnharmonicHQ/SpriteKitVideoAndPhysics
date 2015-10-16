@@ -139,6 +139,14 @@ class ENHSWMyScene: SKScene {
         var node:SKSpriteNode? = nil
         if let texture = self.camToTexture.texture
         {
+            let shaderStr = "void main()" + "\n" +
+                "{" + "\n" +
+                "vec2 tex_coord = vec2(v_tex_coord.x, 1.0 - v_tex_coord.y);" + "\n" +
+                "gl_FragColor = (v_color_mix * texture2D(u_texture, tex_coord)).bgra;" + "\n" +
+                "}" 
+
+            let shader = SKShader(source: shaderStr)
+
             let textureSize = texture.size()
             let rando = CGFloat(randomDoubleInRange(0.15, max: 0.4))
             var spriteSize = textureSize
@@ -149,6 +157,7 @@ class ENHSWMyScene: SKScene {
             {
                 theNode.position = position
                 theNode.zRotation = (ENHSWMySceneConstants.useFrontCam ? CGFloat(0.0) : CGFloat(M_PI))
+                theNode.shader = shader;
 
                 let nodeBody = SKPhysicsBody(rectangleOfSize: spriteSize)
                 nodeBody.mass = 1.0
